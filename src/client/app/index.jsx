@@ -1,12 +1,13 @@
 import React from 'react';
 import { render } from 'react-dom';
+import Synth from './components/Synth' 
 
 class App extends React.Component {
   render() {
     return (
-      <div>hello world!!!!!!</div>
+      <Synth />
     )
   }
 }
 
-render (<App />, document.getElementById('app'))
+render(<App />, document.getElementById('app'))
