@@ -16,6 +16,10 @@ class Synth extends Component {
         {
         name:"PingPongDelay",
          args: ['4n', 0.9]
+        },
+        {
+          name: "Distortion",
+          args: [0.8]
         }
       ],
       synthString: '',
@@ -40,23 +44,44 @@ class Synth extends Component {
     //     }
     //     return `Tone.${compObj.name}(${args})`
     //   }).join("");
-    let effectsArr = this.mapEffects();
-    console.log(effectsArr);
     //how to chain stuff;
+    //create variables 
+    //attach chain to synth and pass variables in
+
     // const dist = new Tone.Distortion(0.8);
     // const ping = new Tone.PingPongDelay('4n', .2);
     // syn = new Tone.Synth().chain(dist, ping, Tone.Master);
     // syn.triggerAttackRelease('D5', '8n');
     // console.log(syn);
+    this.buildSynth();
     
+    
+  }
+  buildSynth() {
+    let effects = this.mapEffects();
+    console.log(effects);
+    
+    // effects.forEach((eff) => {
+    //   let evalStr = `const ${eff.name} = ${eff.fn};`
+    //   console.log(evalStr);
+    //   eval(evalStr)
+    // })
+    console.log("this should be distortion", effects[1])
+    const evalStr = `var ${effects[1].name} = ${effects[1].fn}`
+    // console.log("eval string", evalStr)
+    eval(evalStr)
+    console.log(eval('var test = "test"'))
+    // console.log(test)
   }
   mapEffects() {
     return this.state.stack  
+      .slice(1)
       .map((compObj, i, a) => {
         let args = compObj.args.length ? compObj.args.join(',') : '';
         let name = `ef${i}`;
         let effectObj = {};
-        effectObj[name] = `Tone.${compObj.name}(${args})`
+        effectObj.name = name;
+        effectObj.fn = `new Tone.${compObj.name}(${args})`
         return effectObj;
       });
   }
