@@ -78,8 +78,19 @@ class Synth extends Component {
 
     //WORKS!!!! 
     // const ef0 = new Tone['Distortion'];
-    let effect1 = this.state.stack[2];    
-    let ef0 = new Tone[effect1.name](...effect1.args);
+    let synObj = this.state.stack[0];
+    syn = new Tone[synObj.name]();
+    let effect1 = this.state.stack[1];    
+    // eval('var ef' + 1 + ' = ')
+    let efArray = [];
+
+    let effect2 = this.state.stack[2];
+    efArray[0] = new Tone[effect1.name](...effect1.args);
+    efArray[1] = new Tone[effect2.name](...effect2.args);
+    // console.log(ef0);
+    // console.log(syn);
+    // syn.toMaster();
+    syn.chain(efArray[0], efArray[1], Tone.Master);
     
   }
   mapEffects() {
@@ -101,7 +112,7 @@ class Synth extends Component {
     // const ping = new Tone.PingPongDelay('4n', .2).toMaster();
     // let synth = new Tone.Synth().connect(ping);
     // console.log(`${keymap[key]}${keymap.oct}`)
-    // syn.triggerAttackRelease(`${keymap[key]}${keymap.oct}`, '8n')
+    if (keymap[key]) syn.triggerAttackRelease(`${keymap[key]}${keymap.oct}`, '8n')
   }
   onClick() {
     
