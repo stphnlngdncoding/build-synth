@@ -61,11 +61,14 @@ class Synth extends Component {
     let effects = this.mapEffects();
     console.log(effects);
     
-    // effects.forEach((eff) => {
-    //   let evalStr = `const ${eff.name} = ${eff.fn};`
-    //   console.log(evalStr);
-    //   eval(evalStr)
-    // })
+    effects.forEach((eff) => {
+      // let evalStr = `const ${eff.name} = ${eff.fn};`
+      // console.log(evalStr);
+      // eval(evalStr)
+      // let ef0 = new Tone[eff.fn].apply(this, eff.)
+    })
+    // console.log(new Tone[effect1.name].apply)
+    
     // console.log("this should be distortion", effects[1])
     // const evalStr = `var ${effects[1].name} = ${effects[1].fn}`
     // console.log("eval string", evalStr)
@@ -74,7 +77,10 @@ class Synth extends Component {
     // console.log(test)
 
     //WORKS!!!! 
-    const ef0 = new Tone['Distortion'];
+    // const ef0 = new Tone['Distortion'];
+    let effect1 = this.state.stack[2];    
+    let ef0 = new Tone[effect1.name](...effect1.args);
+    
   }
   mapEffects() {
     return this.state.stack  
