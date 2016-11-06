@@ -66,12 +66,15 @@ class Synth extends Component {
     //   console.log(evalStr);
     //   eval(evalStr)
     // })
-    console.log("this should be distortion", effects[1])
-    const evalStr = `var ${effects[1].name} = ${effects[1].fn}`
+    // console.log("this should be distortion", effects[1])
+    // const evalStr = `var ${effects[1].name} = ${effects[1].fn}`
     // console.log("eval string", evalStr)
-    eval(evalStr)
-    console.log(eval('var test = "test"'))
+    // eval(evalStr)
+    // console.log(eval('var test = "test"'))
     // console.log(test)
+
+    //WORKS!!!! 
+    const ef0 = new Tone['Distortion'];
   }
   mapEffects() {
     return this.state.stack  
