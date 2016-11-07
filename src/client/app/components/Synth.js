@@ -1,5 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
+import _ from 'lodash';
 import SynthDropdown from './SynthDropdown'
 import Effect from './Effect'
 import keymap from '../misc/keymap';
@@ -21,14 +22,14 @@ class Synth extends Component {
         },
         {
           name: "Distortion",
-          args: [{distortion: 0.8}]
+          args: [{normalRange: 0.8}]
         }
       ],
       synthDropdown: "Synth",
       keymap
     }
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
-    this.handleSlider = this.handleSlider.bind(this);
+    this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
   }
   componentWillMount() {
     window.addEventListener('keypress', this.playSound);
@@ -44,13 +45,11 @@ class Synth extends Component {
   }
   buildSynth() {
     const effectArray = this.state.stack.map(eff => {
+      // console.log(eff);
       let effargs = eff.args.map(e => {
         return Object.values(e)[0];
       })
-      // effargs = eff.args.map(e => {
-      //   return e.hasOwnProperty("normalRange") ? e.normalRange : e
-      // })
-      console.log(eff.name, effargs)
+      // console.log(eff.name, effargs)
       return new Tone[eff.name](...effargs)
     })
 
@@ -74,10 +73,23 @@ class Synth extends Component {
       synthDropdown: e.target.value
     })
   }
-  handleSlider(e, effectName) {
+  handleSlider(e, effectName, propertyName) {
+    console.log(e);
+    console.log("i was called");
     let range = e.target.value / 100;
-    // console.log(range);
 
+    let stackCopy = this.state.stack.slice().map(ef => {
+      if (ef.name === effectName) {
+        ef.args.forEach(efProp => {
+          if (efProp.hasOwnProperty("normalRange")) {
+            efProp.normalRange = range;
+          }
+        })
+        return ef
+      } 
+      return ef
+    })
+    this.setState({stack: stackCopy})
   }
   render() {
     return (
