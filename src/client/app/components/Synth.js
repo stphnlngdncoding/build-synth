@@ -1,5 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
+import _ from 'lodash';
 import SynthDropdown from './SynthDropdown'
 import Effect from './Effect'
 import keymap from '../misc/keymap';
@@ -28,7 +29,7 @@ class Synth extends Component {
       keymap
     }
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
-    this.handleSlider = this.handleSlider.bind(this);
+    this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
   }
   componentWillMount() {
     window.addEventListener('keypress', this.playSound);
@@ -73,7 +74,8 @@ class Synth extends Component {
     })
   }
   handleSlider(e, effectName, propertyName) {
-    // console.log(propertyName)
+    console.log(e);
+    console.log("i was called");
     let range = e.target.value / 100;
 
     let stackCopy = this.state.stack.slice().map(ef => {
@@ -87,11 +89,7 @@ class Synth extends Component {
       } 
       return ef
     })
-    // console.log(stackCopy);
     this.setState({stack: stackCopy})
-    // this.buildSynth();
-    // console.log("arguments", arguements);
-    // console.log(effectName)
   }
   render() {
     return (

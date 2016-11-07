@@ -6,13 +6,16 @@ class Effect extends Component {
     return (
       <div>
         {this.props.name}
-        {this.props.args.map(arg => {
+        {this.props.args.map((arg, i) => {
           let val = Object.values(arg)[0];
           let key = Object.keys(arg)[0]
           if (typeof val === "number") {
             return (<input 
+                      key={i}
                       type="range"
-                      onChange={(e) => this.props.handleSlider(e, this.props.name, key)} />)
+                      onChange={(e) => {
+                        e.persist()
+                        this.props.handleSlider(e, this.props.name, key)}} />)
           }
         })}
       </div>
