@@ -8,10 +8,11 @@ class Effect extends Component {
         {this.props.name}
         {this.props.args.map(arg => {
           let val = Object.values(arg)[0];
+          let key = Object.keys(arg)[0]
           if (typeof val === "number") {
             return (<input 
                       type="range"
-                      onChange={(e) => this.props.handleSlider(e, this.props.name)} />)
+                      onChange={(e) => this.props.handleSlider(e, this.props.name, key)} />)
           }
         })}
       </div>
