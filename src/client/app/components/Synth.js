@@ -47,9 +47,6 @@ class Synth extends Component {
       let effargs = eff.args.map(e => {
         return Object.values(e)[0];
       })
-      // effargs = eff.args.map(e => {
-      //   return e.hasOwnProperty("normalRange") ? e.normalRange : e
-      // })
       console.log(eff.name, effargs)
       return new Tone[eff.name](...effargs)
     })
@@ -76,8 +73,13 @@ class Synth extends Component {
   }
   handleSlider(e, effectName) {
     let range = e.target.value / 100;
-    // console.log(range);
-
+    let stackCopy = this.state.stack.slice(1).map(ef => {
+      if (ef.name === effectName) {
+        
+      }
+    })
+    // console.log("arguments", arguements);
+    // console.log(effectName)
   }
   render() {
     return (
