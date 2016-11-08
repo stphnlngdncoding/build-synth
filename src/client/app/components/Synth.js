@@ -1,9 +1,11 @@
 import React from 'react';
 import { Component } from 'react';
 import _ from 'lodash';
-import SynthDropdown from './SynthDropdown'
-import Effect from './Effect'
+import SynthDropdown from './SynthDropdown';
+import Effect from './Effect';
 import keymap from '../misc/keymap';
+import { connect } from 'react-redux';
+import { changeSynth } from '../redux/actions';
 
 let syn;
 
@@ -63,15 +65,17 @@ class Synth extends Component {
   }
   handleSynthDropdownChange(e) {
     console.log(e.target.value);
-    const stackClone = this.state.stack.slice();
-    stackClone[0] = {
-      name: e.target.value,
-      args: []
-    }
-    this.setState({
-      stack: stackClone,
-      synthDropdown: e.target.value
-    })
+    // const stackClone = this.state.stack.slice();
+    // stackClone[0] = {
+    //   name: e.target.value,
+    //   args: []
+    // }
+    // this.setState({
+    //   stack: stackClone,
+    //   synthDropdown: e.target.value
+    // })
+    console.log(this.props);
+    // this.props.test();
   }
   handleSlider(e, effectName, propertyName) {
     console.log(e);
@@ -111,4 +115,21 @@ class Synth extends Component {
   }
 }
 
-export default Synth;
+const mapStateToProps = (state) => {
+  return {
+    stack: state.stack,
+    synthDropdown: state.synthDropdown
+  }
+}
+
+const mapDispatchToProps = (dispatch, ownProps) => {
+  return {
+    test: () => {
+      dispatch(changeSynth("test"));
+    }
+  }
+}
+
+
+;
+export default connect(mapStateToProps, mapDispatchToProps)(Synth);
