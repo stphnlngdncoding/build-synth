@@ -5,7 +5,9 @@ import SynthDropdown from './SynthDropdown';
 import Effect from './Effect';
 import keymap from '../misc/keymap';
 import { connect } from 'react-redux';
-import { changeSynth } from '../redux/actions';
+import { changeSynthDropdown,
+         changeSynth,
+        handleSlider } from '../redux/actions';
 
 let syn;
 
@@ -46,7 +48,7 @@ class Synth extends Component {
     this.buildSynth();
   }
   buildSynth() {
-    const effectArray = this.state.stack.map(eff => {
+    const effectArray = this.props.stack.map(eff => {
       // console.log(eff);
       let effargs = eff.args.map(e => {
         return Object.values(e)[0];
@@ -56,6 +58,7 @@ class Synth extends Component {
     })
 
     let synthNode = effectArray.splice(0, 1)[0];
+    console.log("synthNode in build", synthNode)
     syn = synthNode.chain(...effectArray, Tone.Master);
     
   }
@@ -64,7 +67,6 @@ class Synth extends Component {
     if (keymap[key]) syn.triggerAttackRelease(`${keymap[key]}${keymap.oct}`, '8n')
   }
   handleSynthDropdownChange(e) {
-    console.log(e.target.value);
     // const stackClone = this.state.stack.slice();
     // stackClone[0] = {
     //   name: e.target.value,
@@ -74,33 +76,36 @@ class Synth extends Component {
     //   stack: stackClone,
     //   synthDropdown: e.target.value
     // })
-    console.log(this.props);
+    this.props.changeSynth(e.target.value);
+    this.props.changeSynthDropdown(e.target.value);
     // this.props.test();
   }
   handleSlider(e, effectName, propertyName) {
-    console.log(e);
-    console.log("i was called");
-    let range = e.target.value / 100;
+    // console.log(e);
+    // console.log("i was called");
+    // let range = e.target.value / 100;
 
-    let stackCopy = this.state.stack.slice().map(ef => {
-      if (ef.name === effectName) {
-        ef.args.forEach(efProp => {
-          if (efProp.hasOwnProperty("normalRange")) {
-            efProp.normalRange = range;
-          }
-        })
-        return ef
-      } 
-      return ef
-    })
-    this.setState({stack: stackCopy})
+    // let stackCopy = this.state.stack.slice().map(ef => {
+    //   if (ef.name === effectName) {
+    //     ef.args.forEach(efProp => {
+    //       if (efProp.hasOwnProperty("normalRange")) {
+    //         efProp.normalRange = range;
+    //       }
+    //     })
+    //     return ef
+    //   } 
+    //   return ef
+    // })
+    // this.setState({stack: stackCopy})
+    this.props.handleSlider(e, effectName, propertyName);
+    this.forceUpdate();
   }
   render() {
     return (
       <div>
         <SynthDropdown
           handleChange={this.handleSynthDropdownChange}
-          value={this.state.synthDropdown}
+          value={this.props.synthDropdown}
         />
         {this.state.stack.slice(1).map((ef,i) => {
           return (<Effect 
@@ -124,8 +129,14 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    test: () => {
-      dispatch(changeSynth("test"));
+    changeSynthDropdown: (synthName) => {
+      dispatch(changeSynthDropdown(synthName));
+    },
+    changeSynth: (synthName) => {
+      dispatch(changeSynth(synthName));
+    },
+    handleSlider: (e, effectName, propertyName) => {
+      dispatch(handleSlider(e, effectName, propertyName))
     }
   }
 }
