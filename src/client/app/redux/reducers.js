@@ -1,4 +1,4 @@
-import { ADD_EFFECT, CHANGE_SYNTH } from './actions';
+import { ADD_EFFECT, CHANGE_SYNTH_DROPDOWN, CHANGE_SYNTH } from './actions';
 
 const initialState = {
   synthDropdown: "Synth",
@@ -20,10 +20,17 @@ const initialState = {
 
 function buildSynthApp(state = initialState, action) {
   switch (action.type) {
-    case CHANGE_SYNTH:
+    case CHANGE_SYNTH_DROPDOWN:
       return Object.assign({}, state, {
         synthDropdown: action.synthName
       })
+    case CHANGE_SYNTH:
+      const stateClone = Object.assign({}, state);
+      stateClone.stack[0] = {
+        name: action.synthName,
+        args: []
+      }
+      return stateClone;
     default: 
       return state;
   }

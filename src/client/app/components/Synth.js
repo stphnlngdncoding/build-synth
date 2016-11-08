@@ -5,7 +5,7 @@ import SynthDropdown from './SynthDropdown';
 import Effect from './Effect';
 import keymap from '../misc/keymap';
 import { connect } from 'react-redux';
-import { changeSynth } from '../redux/actions';
+import { changeSynthDropdown, changeSynth } from '../redux/actions';
 
 let syn;
 
@@ -56,7 +56,7 @@ class Synth extends Component {
     })
 
     let synthNode = effectArray.splice(0, 1)[0];
-    // console.log(synthNode)
+    console.log("synthNode in build", synthNode)
     syn = synthNode.chain(...effectArray, Tone.Master);
     
   }
@@ -65,11 +65,22 @@ class Synth extends Component {
     if (keymap[key]) syn.triggerAttackRelease(`${keymap[key]}${keymap.oct}`, '8n')
   }
   handleSynthDropdownChange(e) {
-    console.log(e.target.value);
+    // const stackClone = this.state.stack.slice();
+    // stackClone[0] = {
+    //   name: e.target.value,
+    //   args: []
+    // }
+    // this.setState({
+    //   stack: stackClone,
+    //   synthDropdown: e.target.value
+    // })
+    this.props.changeSynth(e.target.value);
     this.props.changeSynthDropdown(e.target.value);
-    this.forceUpdate();
+    // this.props.test();
   }
   handleSlider(e, effectName, propertyName) {
+    console.log(e);
+    console.log("i was called");
     let range = e.target.value / 100;
 
     let stackCopy = this.state.stack.slice().map(ef => {
@@ -115,6 +126,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
     changeSynthDropdown: (synthName) => {
+      dispatch(changeSynthDropdown(synthName));
+    },
+    changeSynth: (synthName) => {
       dispatch(changeSynth(synthName));
     }
   }
