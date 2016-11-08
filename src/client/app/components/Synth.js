@@ -5,7 +5,9 @@ import SynthDropdown from './SynthDropdown';
 import Effect from './Effect';
 import keymap from '../misc/keymap';
 import { connect } from 'react-redux';
-import { changeSynthDropdown, changeSynth } from '../redux/actions';
+import { changeSynthDropdown,
+         changeSynth,
+        handleSlider } from '../redux/actions';
 
 let syn;
 
@@ -79,22 +81,24 @@ class Synth extends Component {
     // this.props.test();
   }
   handleSlider(e, effectName, propertyName) {
-    console.log(e);
-    console.log("i was called");
-    let range = e.target.value / 100;
+    // console.log(e);
+    // console.log("i was called");
+    // let range = e.target.value / 100;
 
-    let stackCopy = this.state.stack.slice().map(ef => {
-      if (ef.name === effectName) {
-        ef.args.forEach(efProp => {
-          if (efProp.hasOwnProperty("normalRange")) {
-            efProp.normalRange = range;
-          }
-        })
-        return ef
-      } 
-      return ef
-    })
-    this.setState({stack: stackCopy})
+    // let stackCopy = this.state.stack.slice().map(ef => {
+    //   if (ef.name === effectName) {
+    //     ef.args.forEach(efProp => {
+    //       if (efProp.hasOwnProperty("normalRange")) {
+    //         efProp.normalRange = range;
+    //       }
+    //     })
+    //     return ef
+    //   } 
+    //   return ef
+    // })
+    // this.setState({stack: stackCopy})
+    this.props.handleSlider(e, effectName, propertyName);
+    this.forceUpdate();
   }
   render() {
     return (
@@ -130,6 +134,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     changeSynth: (synthName) => {
       dispatch(changeSynth(synthName));
+    },
+    handleSlider: (e, effectName, propertyName) => {
+      dispatch(handleSlider(e, effectName, propertyName))
     }
   }
 }

@@ -1,6 +1,7 @@
 export const ADD_EFFECT = 'ADD_EFFECT';
 export const CHANGE_SYNTH_DROPDOWN = 'CHANGE_SYNTH_DROPDOWN';
-export const CHANGE_SYNTH = 'CHANGE_SYNTH'
+export const CHANGE_SYNTH = 'CHANGE_SYNTH';
+export const HANDLE_SLIDER = 'HANDLE_SLIDER';
 
 
 export function changeSynthDropdown(synthName) {
@@ -22,4 +23,13 @@ export function changeSynth(synthName) {
     type: CHANGE_SYNTH,
     synthName
   }  
+}
+
+export function handleSlider(e, effectName, propertyName) {
+  return {
+    type: HANDLE_SLIDER,
+    e,
+    effectName,
+    propertyName
+  }
 }

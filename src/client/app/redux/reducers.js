@@ -1,4 +1,9 @@
-import { ADD_EFFECT, CHANGE_SYNTH_DROPDOWN, CHANGE_SYNTH } from './actions';
+import { 
+  ADD_EFFECT, 
+  CHANGE_SYNTH_DROPDOWN, 
+  CHANGE_SYNTH,
+  HANDLE_SLIDER,
+ } from './actions';
 
 const initialState = {
   synthDropdown: "Synth",
@@ -25,12 +30,29 @@ function buildSynthApp(state = initialState, action) {
         synthDropdown: action.synthName
       })
     case CHANGE_SYNTH:
-      const stateClone = Object.assign({}, state);
+      let stateClone = Object.assign({}, state);
       stateClone.stack[0] = {
         name: action.synthName,
         args: []
       }
       return stateClone;
+    case HANDLE_SLIDER:
+      stateClone = Object.assign({}, state);
+      let stack = stateClone.stack;
+      let range = action.e.target.value / 100;
+      stack.map(ef => {
+        if (ef.name === action.effectName) {
+          ef.args.forEach(efProp => {
+            if (efProp.hasOwnProperty('normalRange')) {
+              efProp.normalRange = range;
+            }
+          })
+          return ef;
+        }
+        return ef;
+      })
+      return stateClone;
+
     default: 
       return state;
   }
