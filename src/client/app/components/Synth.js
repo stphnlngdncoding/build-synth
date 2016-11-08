@@ -74,7 +74,7 @@ class Synth extends Component {
     //   stack: stackClone,
     //   synthDropdown: e.target.value
     // })
-    console.log(this.props);
+    this.props.changeSynthDropdown(e.target.value);
     // this.props.test();
   }
   handleSlider(e, effectName, propertyName) {
@@ -100,7 +100,7 @@ class Synth extends Component {
       <div>
         <SynthDropdown
           handleChange={this.handleSynthDropdownChange}
-          value={this.state.synthDropdown}
+          value={this.props.synthDropdown}
         />
         {this.state.stack.slice(1).map((ef,i) => {
           return (<Effect 
@@ -124,8 +124,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    test: () => {
-      dispatch(changeSynth("test"));
+    changeSynthDropdown: (synthName) => {
+      dispatch(changeSynth(synthName));
     }
   }
 }
