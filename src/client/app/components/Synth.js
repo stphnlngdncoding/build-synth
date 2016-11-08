@@ -48,17 +48,22 @@ class Synth extends Component {
     this.buildSynth();
   }
   buildSynth() {
-    const effectArray = this.props.stack.map(eff => {
-      // console.log(eff);
-      let effargs = eff.args.map(e => {
-        return Object.values(e)[0];
-      })
-      // console.log(eff.name, effargs)
-      return new Tone[eff.name](...effargs)
-    })
+    const effectArray = this.props.stack
+      .map(eff => {
+          // console.log(eff);
+        let effargs = eff.args.map(e => {
+          return Object.values(e)[0];
+        })
+          // console.log(eff.name, effargs)
+          return (eff.enabled) ? new Tone[eff.name](...effargs) : 'disabled';
+        })
+
+      .filter(e => e !== "disabled");
+      // console.log(effectArray)
 
     let synthNode = effectArray.splice(0, 1)[0];
-    console.log("synthNode in build", synthNode)
+    // console.log("synthNode in build", synthNode)
+    // console.log(effectArray);
     syn = synthNode.chain(...effectArray, Tone.Master);
     
   }
@@ -107,12 +112,13 @@ class Synth extends Component {
           handleChange={this.handleSynthDropdownChange}
           value={this.props.synthDropdown}
         />
-        {this.state.stack.slice(1).map((ef,i) => {
-          return (<Effect 
+        {this.props.stack.slice(1).map((ef,i) => {
+          return ((ef.enabled) ? <Effect 
                     key={i}
                     name={ef.name}
                     args={ef.args}
-                    handleSlider={this.handleSlider} />)
+                    handleSlider={this.handleSlider} />
+                    : <div>effect disabled</div>)
         })}
       </div>
       
