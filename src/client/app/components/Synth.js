@@ -46,7 +46,7 @@ class Synth extends Component {
     this.buildSynth();
   }
   buildSynth() {
-    const effectArray = this.state.stack.map(eff => {
+    const effectArray = this.props.stack.map(eff => {
       // console.log(eff);
       let effargs = eff.args.map(e => {
         return Object.values(e)[0];
@@ -56,6 +56,7 @@ class Synth extends Component {
     })
 
     let synthNode = effectArray.splice(0, 1)[0];
+    // console.log(synthNode)
     syn = synthNode.chain(...effectArray, Tone.Master);
     
   }
@@ -65,21 +66,10 @@ class Synth extends Component {
   }
   handleSynthDropdownChange(e) {
     console.log(e.target.value);
-    // const stackClone = this.state.stack.slice();
-    // stackClone[0] = {
-    //   name: e.target.value,
-    //   args: []
-    // }
-    // this.setState({
-    //   stack: stackClone,
-    //   synthDropdown: e.target.value
-    // })
     this.props.changeSynthDropdown(e.target.value);
-    // this.props.test();
+    this.forceUpdate();
   }
   handleSlider(e, effectName, propertyName) {
-    console.log(e);
-    console.log("i was called");
     let range = e.target.value / 100;
 
     let stackCopy = this.state.stack.slice().map(ef => {
