@@ -3,8 +3,13 @@ import {
   CHANGE_SYNTH_DROPDOWN, 
   CHANGE_SYNTH,
   HANDLE_SLIDER,
-  TOGGLE_EFFECT
+  TOGGLE_EFFECT,
+  ADD_DISTORTION_EFFECT
  } from './actions';
+
+import {
+  distortionObj
+} from '../effects/effects'
 
 const initialState = {
   synthDropdown: "Synth",
@@ -61,6 +66,11 @@ function buildSynthApp(state = initialState, action) {
       stateClone = Object.assign({}, state)
       stateClone.stack[action.index + 1].enabled = !stateClone.stack[action.index + 1].enabled
       return stateClone
+    case ADD_DISTORTION_EFFECT:
+      stateClone = Object.assign({}, state)
+      console.log(action.index)
+      stateClone.stack.push(distortionObj);
+      return stateClone;
 //   
     default: 
       return state;

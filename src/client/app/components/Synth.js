@@ -8,8 +8,9 @@ import { connect } from 'react-redux';
 import { changeSynthDropdown,
          changeSynth,
          handleSlider,
-         toggleEffect } from '../redux/actions';
-
+         toggleEffect,
+        addDistortionEffect } from '../redux/actions';
+console.log(addDistortionEffect, "this is the distortion function")
 let syn;
 
 class Synth extends Component {
@@ -36,6 +37,7 @@ class Synth extends Component {
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
     this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
     this.toggleEffect = this.toggleEffect.bind(this);
+    this.addDistortionEffect = this.addDistortionEffect.bind(this);
   }
   componentWillMount() {
     window.addEventListener('keypress', this.playSound);
@@ -112,6 +114,10 @@ class Synth extends Component {
     this.props.toggleEffect(index);
     this.forceUpdate();
   }
+  addDistortionEffect(index) {
+    this.props.addDistortionEffect(index);
+    this.forceUpdate();
+  }
   render() {
     return (
       <div>
@@ -129,6 +135,7 @@ class Synth extends Component {
                     handleSlider={this.handleSlider}
                     toggleEffect={this.toggleEffect} />)
         })}
+      <button onClick={this.addDistortionEffect}>click me!</button>
       </div>
       
     )
@@ -155,6 +162,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     toggleEffect: (index) => {
       dispatch(toggleEffect(index));
+    },
+    addDistortionEffect: (index) => {
+      dispatch(addDistortionEffect(index));
     }
   }
 }

@@ -43,7 +43,7 @@ export function toggleEffect(index) {
   }
 }
 
-export function addDisortionEffect(index) {
+export function addDistortionEffect(index) {
   return {
     type: ADD_DISTORTION_EFFECT,
     index

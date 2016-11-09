@@ -1,3 +1,5 @@
-export default distortionObj = {
-  name: "Distortion"
-}
+export const distortionObj = {
+                  name: "Distortion",
+                  args: [{normalRange: 0.8}],
+                  enabled:true
+                }
