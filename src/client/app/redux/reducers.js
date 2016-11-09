@@ -69,7 +69,7 @@ function buildSynthApp(state = initialState, action) {
     case ADD_DISTORTION_EFFECT:
       stateClone = Object.assign({}, state)
       console.log(action.index)
-      stateClone.stack.push(distortionObj);
+      stateClone.stack.push(Object.assign({}, distortionObj));
       return stateClone;
 //   
     default: 
