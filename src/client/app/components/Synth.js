@@ -10,7 +10,8 @@ import { changeSynthDropdown,
          handleSlider,
          toggleEffect,
          addDistortionEffect,
-         handleTextInput} from '../redux/actions';
+         handleTextInput,
+         addEffect } from '../redux/actions';
 
 
 let syn;
@@ -41,6 +42,7 @@ class Synth extends Component {
     this.toggleEffect = this.toggleEffect.bind(this);
     this.addDistortionEffect = this.addDistortionEffect.bind(this);
     this.handleTextBoxChange = _.debounce(this.handleTextBoxChange.bind(this), 250);
+    this.addEffect = this.addEffect.bind(this);
   }
   componentWillMount() {
     window.addEventListener('keypress', this.playSound);
@@ -125,6 +127,10 @@ class Synth extends Component {
     this.props.handleTextInput(e, effectName, propertyName)
     this.forceUpdate();
   }
+  addEffect(e, effectName, index) {
+    this.props.addEffect(e, "Freeverb");
+    this.forceUpdate();
+  }
   render() {
     return (
       <div>
@@ -143,7 +149,7 @@ class Synth extends Component {
                     handleTextInput={this.handleTextBoxChange}
                     toggleEffect={this.toggleEffect} />)
         })}
-      <button onClick={this.addDistortionEffect}>click me!</button>
+      <button onClick={this.addEffect}>click me!</button>
       </div>
       
     )
@@ -176,6 +182,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     addDistortionEffect: (index) => {
       dispatch(addDistortionEffect(index));
+    },
+    addEffect : (e, effectName, index) => {
+      dispatch(addEffect(effectName, index))
     }
   }
 }

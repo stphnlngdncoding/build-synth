@@ -14,10 +14,11 @@ export function changeSynthDropdown(synthName) {
   }
 }
 
-export function addEffect(effectName) {
+export function addEffect(effectName, index) {
   return {
     type: ADD_EFFECT,
-    effectName
+    effectName,
+    index
   }
 }
 
