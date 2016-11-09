@@ -7,7 +7,8 @@ import keymap from '../misc/keymap';
 import { connect } from 'react-redux';
 import { changeSynthDropdown,
          changeSynth,
-        handleSlider } from '../redux/actions';
+         handleSlider,
+         toggleEffect } from '../redux/actions';
 
 let syn;
 
@@ -34,6 +35,7 @@ class Synth extends Component {
     }
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
     this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
+    this.toggleEffect = this.toggleEffect.bind(this);
   }
   componentWillMount() {
     window.addEventListener('keypress', this.playSound);
@@ -48,17 +50,22 @@ class Synth extends Component {
     this.buildSynth();
   }
   buildSynth() {
-    const effectArray = this.props.stack.map(eff => {
-      // console.log(eff);
-      let effargs = eff.args.map(e => {
-        return Object.values(e)[0];
-      })
-      // console.log(eff.name, effargs)
-      return new Tone[eff.name](...effargs)
-    })
+    const effectArray = this.props.stack
+      .map(eff => {
+          // console.log(eff);
+        let effargs = eff.args.map(e => {
+          return Object.values(e)[0];
+        })
+          // console.log(eff.name, effargs)
+          return (eff.enabled) ? new Tone[eff.name](...effargs) : 'disabled';
+        })
+
+      .filter(e => e !== "disabled");
+      // console.log(effectArray)
 
     let synthNode = effectArray.splice(0, 1)[0];
-    console.log("synthNode in build", synthNode)
+    // console.log("synthNode in build", synthNode)
+    // console.log(effectArray);
     syn = synthNode.chain(...effectArray, Tone.Master);
     
   }
@@ -100,6 +107,11 @@ class Synth extends Component {
     this.props.handleSlider(e, effectName, propertyName);
     this.forceUpdate();
   }
+  toggleEffect(index) {
+    console.log("toggleEffect hit at ", index)
+    this.props.toggleEffect(index);
+    this.forceUpdate();
+  }
   render() {
     return (
       <div>
@@ -107,12 +119,15 @@ class Synth extends Component {
           handleChange={this.handleSynthDropdownChange}
           value={this.props.synthDropdown}
         />
-        {this.state.stack.slice(1).map((ef,i) => {
+        {this.props.stack.slice(1).map((ef,i) => {
           return (<Effect 
                     key={i}
+                    index={i}
                     name={ef.name}
                     args={ef.args}
-                    handleSlider={this.handleSlider} />)
+                    enabled={ef.enabled}
+                    handleSlider={this.handleSlider}
+                    toggleEffect={this.toggleEffect} />)
         })}
       </div>
       
@@ -137,6 +152,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     handleSlider: (e, effectName, propertyName) => {
       dispatch(handleSlider(e, effectName, propertyName))
+    },
+    toggleEffect: (index) => {
+      dispatch(toggleEffect(index));
     }
   }
 }

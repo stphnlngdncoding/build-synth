@@ -3,6 +3,7 @@ import {
   CHANGE_SYNTH_DROPDOWN, 
   CHANGE_SYNTH,
   HANDLE_SLIDER,
+  TOGGLE_EFFECT
  } from './actions';
 
 const initialState = {
@@ -10,15 +11,18 @@ const initialState = {
   stack: [
         {
           name: "Synth",
-         args: []
+         args: [],
+         enabled: true
         },
         {
-        name:"PingPongDelay",
-         args: [{delayTime:'4n'}, {normalRange: 0.9}]
+          name:"PingPongDelay",
+          args: [{delayTime:'4n'}, {normalRange: 0.9}],
+          enabled: false
         },
         {
           name: "Distortion",
-          args: [{normalRange: 0.8}]
+          args: [{normalRange: 0.8}],
+          enabled:true
         }
       ]
 }
@@ -33,7 +37,8 @@ function buildSynthApp(state = initialState, action) {
       let stateClone = Object.assign({}, state);
       stateClone.stack[0] = {
         name: action.synthName,
-        args: []
+        args: [],
+        enabled: true
       }
       return stateClone;
     case HANDLE_SLIDER:
@@ -52,7 +57,11 @@ function buildSynthApp(state = initialState, action) {
         return ef;
       })
       return stateClone;
-
+    case TOGGLE_EFFECT:
+      stateClone = Object.assign({}, state)
+      stateClone.stack[action.index + 1].enabled = !stateClone.stack[action.index + 1].enabled
+      return stateClone
+//   
     default: 
       return state;
   }

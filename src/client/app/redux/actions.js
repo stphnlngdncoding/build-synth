@@ -2,6 +2,7 @@ export const ADD_EFFECT = 'ADD_EFFECT';
 export const CHANGE_SYNTH_DROPDOWN = 'CHANGE_SYNTH_DROPDOWN';
 export const CHANGE_SYNTH = 'CHANGE_SYNTH';
 export const HANDLE_SLIDER = 'HANDLE_SLIDER';
+export const TOGGLE_EFFECT = 'TOGGLE_EFFECT';
 
 
 export function changeSynthDropdown(synthName) {
@@ -31,5 +32,12 @@ export function handleSlider(e, effectName, propertyName) {
     e,
     effectName,
     propertyName
+  }
+}
+
+export function toggleEffect(index) {
+  return {
+    type: TOGGLE_EFFECT,
+    index
   }
 }
