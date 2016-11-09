@@ -4,6 +4,7 @@ export const CHANGE_SYNTH = 'CHANGE_SYNTH';
 export const HANDLE_SLIDER = 'HANDLE_SLIDER';
 export const TOGGLE_EFFECT = 'TOGGLE_EFFECT';
 export const ADD_DISTORTION_EFFECT = 'ADD_DISTORTION_EFFECT';
+export const HANDLE_TEXT_INPUT = 'HANDLE_TEXT_INPUT'
 
 
 export function changeSynthDropdown(synthName) {
@@ -47,5 +48,14 @@ export function addDistortionEffect(index) {
   return {
     type: ADD_DISTORTION_EFFECT,
     index
+  }
+}
+
+export function handleTextInput(e, effectName, propertyName) {
+  return {
+    type: HANDLE_TEXT_INPUT,
+    e,
+    effectName,
+    propertyName
   }
 }

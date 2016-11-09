@@ -4,7 +4,8 @@ import {
   CHANGE_SYNTH,
   HANDLE_SLIDER,
   TOGGLE_EFFECT,
-  ADD_DISTORTION_EFFECT
+  ADD_DISTORTION_EFFECT,
+  HANDLE_TEXT_INPUT
  } from './actions';
 
 import {
@@ -68,9 +69,24 @@ function buildSynthApp(state = initialState, action) {
       return stateClone
     case ADD_DISTORTION_EFFECT:
       stateClone = Object.assign({}, state)
-      console.log(action.index)
       stateClone.stack.push(Object.assign({}, distortionObj));
       return stateClone;
+    case HANDLE_TEXT_INPUT:
+      stateClone = Object.assign({}, state) 
+      stack = stateClone.stack;
+      let val = Number(action.e.target.value);
+      stack.map(ef => {
+        if (ef.name === action.effectName) {
+          ef.args.forEach(efProp => {
+            if (efProp.hasOwnProperty(action.propertyName)) {
+              efProp[action.propertyName] = val;
+            }
+          })
+          return ef;
+        }
+        return ef;
+      })
+      return stateClone
 //   
     default: 
       return state;
