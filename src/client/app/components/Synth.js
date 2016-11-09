@@ -10,7 +10,8 @@ import { changeSynthDropdown,
          handleSlider,
          toggleEffect,
         addDistortionEffect } from '../redux/actions';
-console.log(addDistortionEffect, "this is the distortion function")
+
+
 let syn;
 
 class Synth extends Component {
