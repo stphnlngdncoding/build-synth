@@ -5,7 +5,7 @@ class Effect extends Component {
   render() {
     return (
       <div>
-        {this.props.name}
+        {this.props.enabled ? this.props.name : "disabled"}
         {this.props.args.map((arg, i) => {
           let val = Object.values(arg)[0];
           let key = Object.keys(arg)[0]
@@ -18,6 +18,7 @@ class Effect extends Component {
                         this.props.handleSlider(e, this.props.name, key)}} />)
           }
         })}
+        <button onClick={() => this.props.toggleEffect(this.props.index)}>toggleEffect</button>
       </div>
     )
   }

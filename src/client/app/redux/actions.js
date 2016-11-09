@@ -35,9 +35,9 @@ export function handleSlider(e, effectName, propertyName) {
   }
 }
 
-export function toggleEffect(effectName) {
+export function toggleEffect(index) {
   return {
     type: TOGGLE_EFFECT,
-    effectName
+    index
   }
 }

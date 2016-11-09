@@ -3,6 +3,7 @@ import {
   CHANGE_SYNTH_DROPDOWN, 
   CHANGE_SYNTH,
   HANDLE_SLIDER,
+  TOGGLE_EFFECT
  } from './actions';
 
 const initialState = {
@@ -56,7 +57,11 @@ function buildSynthApp(state = initialState, action) {
         return ef;
       })
       return stateClone;
-
+    case TOGGLE_EFFECT:
+      stateClone = Object.assign({}, state)
+      stateClone.stack[action.index + 1].enabled = !stateClone.stack[action.index + 1].enabled
+      return stateClone
+//   
     default: 
       return state;
   }

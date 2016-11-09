@@ -7,7 +7,8 @@ import keymap from '../misc/keymap';
 import { connect } from 'react-redux';
 import { changeSynthDropdown,
          changeSynth,
-        handleSlider } from '../redux/actions';
+         handleSlider,
+         toggleEffect } from '../redux/actions';
 
 let syn;
 
@@ -34,6 +35,7 @@ class Synth extends Component {
     }
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
     this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
+    this.toggleEffect = this.toggleEffect.bind(this);
   }
   componentWillMount() {
     window.addEventListener('keypress', this.playSound);
@@ -105,6 +107,11 @@ class Synth extends Component {
     this.props.handleSlider(e, effectName, propertyName);
     this.forceUpdate();
   }
+  toggleEffect(index) {
+    console.log("toggleEffect hit at ", index)
+    this.props.toggleEffect(index);
+    this.forceUpdate();
+  }
   render() {
     return (
       <div>
@@ -113,12 +120,14 @@ class Synth extends Component {
           value={this.props.synthDropdown}
         />
         {this.props.stack.slice(1).map((ef,i) => {
-          return ((ef.enabled) ? <Effect 
+          return (<Effect 
                     key={i}
+                    index={i}
                     name={ef.name}
                     args={ef.args}
-                    handleSlider={this.handleSlider} />
-                    : <div>effect disabled</div>)
+                    enabled={ef.enabled}
+                    handleSlider={this.handleSlider}
+                    toggleEffect={this.toggleEffect} />)
         })}
       </div>
       
@@ -143,6 +152,9 @@ const mapDispatchToProps = (dispatch, ownProps) => {
     },
     handleSlider: (e, effectName, propertyName) => {
       dispatch(handleSlider(e, effectName, propertyName))
+    },
+    toggleEffect: (index) => {
+      dispatch(toggleEffect(index));
     }
   }
 }
