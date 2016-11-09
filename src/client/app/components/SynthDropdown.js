@@ -19,6 +19,9 @@ class SynthDropdown extends Component {
         <option value="AMSynth">AMSynth</option>
         <option value="DuoSynth">DuoSynth</option>
         <option value="FMSynth">FMSynth</option>
+        <option value="PluckSynth">Pluck Synth</option>
+        <option value="PolySynth">Poly Synth</option>
+        <option value="MembraneSynth">Membrane Synth</option>
       </select>
     )
   }
