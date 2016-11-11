@@ -19,7 +19,6 @@ class Effect extends Component {
             return (
               <input defaultValue={val} onChange={(e)=>{
                 e.persist()
-                console.log(this.props)
                 this.props.handleTextInput(e, this.props.name, key)}
               } type='text' />
             )

@@ -2,6 +2,7 @@ import React from 'react';
 import { Component } from 'react';
 import _ from 'lodash';
 import SynthDropdown from './SynthDropdown';
+import EffectsDropdown from './EffectsDropdown';
 import Effect from './Effect';
 import keymap from '../misc/keymap';
 import { connect } from 'react-redux';
@@ -19,24 +20,24 @@ let syn;
 class Synth extends Component {
   constructor() {
     super();
-    this.state = {
-      stack: [
-        {
-          name: "Synth",
-         args: []
-        },
-        {
-        name:"PingPongDelay",
-         args: [{delayTime:'4n'}, {normalRange: 0.9}]
-        },
-        {
-          name: "Distortion",
-          args: [{normalRange: 0.8}]
-        }
-      ],
-      synthDropdown: "Synth",
-      keymap
-    }
+    // this.state = {
+    //   stack: [
+    //     {
+    //       name: "Synth",
+    //      args: []
+    //     },
+    //     {
+    //     name:"PingPongDelay",
+    //      args: [{delayTime:'4n'}, {normalRange: 0.9}]
+    //     },
+    //     {
+    //       name: "Distortion",
+    //       args: [{normalRange: 0.8}]
+    //     }
+    //   ],
+    //   synthDropdown: "Synth",
+    //   keymap
+    // }
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
     this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
     this.toggleEffect = this.toggleEffect.bind(this);
@@ -95,22 +96,6 @@ class Synth extends Component {
     // this.props.test();
   }
   handleSlider(e, effectName, propertyName) {
-    // console.log(e);
-    // console.log("i was called");
-    // let range = e.target.value / 100;
-
-    // let stackCopy = this.state.stack.slice().map(ef => {
-    //   if (ef.name === effectName) {
-    //     ef.args.forEach(efProp => {
-    //       if (efProp.hasOwnProperty("normalRange")) {
-    //         efProp.normalRange = range;
-    //       }
-    //     })
-    //     return ef
-    //   } 
-    //   return ef
-    // })
-    // this.setState({stack: stackCopy})
     this.props.handleSlider(e, effectName, propertyName);
     this.forceUpdate();
   }
@@ -128,7 +113,8 @@ class Synth extends Component {
     this.forceUpdate();
   }
   addEffect(e, effectName, index) {
-    this.props.addEffect(e, "Freeverb");
+    console.log(e);
+    this.props.addEffect(e, effectName);
     this.forceUpdate();
   }
   render() {
@@ -149,9 +135,9 @@ class Synth extends Component {
                     handleTextInput={this.handleTextBoxChange}
                     toggleEffect={this.toggleEffect} />)
         })}
+      <EffectsDropdown addEffect={this.addEffect} />
       <button onClick={this.addEffect}>click me!</button>
-      </div>
-      
+    </div>  
     )
   }
 }
