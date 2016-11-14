@@ -3,8 +3,17 @@ import {
   CHANGE_SYNTH_DROPDOWN, 
   CHANGE_SYNTH,
   HANDLE_SLIDER,
-  TOGGLE_EFFECT
+  TOGGLE_EFFECT,
+  ADD_DISTORTION_EFFECT,
+  HANDLE_TEXT_INPUT
  } from './actions';
+
+import {
+  distortionObj,
+  Effects
+} from '../misc/effects'
+
+
 
 const initialState = {
   synthDropdown: "Synth",
@@ -61,6 +70,31 @@ function buildSynthApp(state = initialState, action) {
       stateClone = Object.assign({}, state)
       stateClone.stack[action.index + 1].enabled = !stateClone.stack[action.index + 1].enabled
       return stateClone
+    case ADD_DISTORTION_EFFECT:
+      stateClone = Object.assign({}, state)
+      stateClone.stack.push(Object.assign({}, distortionObj));
+      return stateClone;
+    case HANDLE_TEXT_INPUT:
+      stateClone = Object.assign({}, state) 
+      stack = stateClone.stack;
+      let val = Number(action.e.target.value);
+      stack.map(ef => {
+        if (ef.name === action.effectName) {
+          ef.args.forEach(efProp => {
+            if (efProp.hasOwnProperty(action.propertyName)) {
+              efProp[action.propertyName] = val;
+            }
+          })
+          return ef;
+        }
+        return ef;
+      })
+      return stateClone;
+    case ADD_EFFECT:
+      stateClone = Object.assign({}, state);
+      let effect = Effects[action.effectName];
+      stateClone.stack.push(Object.assign({}, effect));
+      return stateClone;
 //   
     default: 
       return state;
