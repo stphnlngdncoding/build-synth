@@ -5,7 +5,8 @@ import {
   HANDLE_SLIDER,
   TOGGLE_EFFECT,
   ADD_DISTORTION_EFFECT,
-  HANDLE_TEXT_INPUT
+  HANDLE_TEXT_INPUT,
+  DELETE_EFFECT
  } from './actions';
 
 import {
@@ -95,6 +96,12 @@ function buildSynthApp(state = initialState, action) {
       let effect = Effects[action.effectName];
       stateClone.stack.push(Object.assign({}, effect));
       return stateClone;
+    case DELETE_EFFECT:
+      stateClone = Object.assign({}, state);
+      console.log(action.index)
+      stateClone.stack.splice(action.index + 1, 1);
+      console.log(stateClone.stack)
+      return stateClone
 //   
     default: 
       return state;
