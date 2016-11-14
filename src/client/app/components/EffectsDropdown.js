@@ -1,6 +1,6 @@
 import React from 'react';
 import { Component } from 'react';
-import { Effects } from '../effects/effects';
+import { Effects } from '../misc/effects';
 
 class EffectsDropdown extends Component {
   render() {
@@ -8,8 +8,13 @@ class EffectsDropdown extends Component {
       return <option value={effectName}>{effectName}</option>
     })
     return (
-      <select onChange={(e) => this.props.addEffect(e, e.target.value)}>
-        {effectsOptions}
+      <select 
+        ref={(select) => this.select = select}
+        onChange={(e) => {
+          this.props.addEffect(e, e.target.value);
+          this.select.blur();  
+        }}>
+            {effectsOptions}
       </select>
       )
   }

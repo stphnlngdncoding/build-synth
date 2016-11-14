@@ -11,7 +11,7 @@ import {
 import {
   distortionObj,
   Effects
-} from '../effects/effects'
+} from '../misc/effects'
 
 
 
@@ -92,9 +92,7 @@ function buildSynthApp(state = initialState, action) {
       return stateClone;
     case ADD_EFFECT:
       stateClone = Object.assign({}, state);
-      console.log(action.effectName, Effects)
       let effect = Effects[action.effectName];
-      console.log(effect);
       stateClone.stack.push(Object.assign({}, effect));
       return stateClone;
 //   
