@@ -62,8 +62,8 @@ export const Effects = {
   FeedbackDelay: {
     name: "FeedbackDelay",
     args: [
-      {delayTime: 1.5},
-      {feedback: 3.5}
+      {delayTime: .5},
+      {feedback: .5}
     ],
     enabled: true
   },
@@ -97,8 +97,8 @@ export const Effects = {
     ],
     enabled: true
   },
-  Tremelo: {
-    name: "Tremelo",
+  Tremolo: {
+    name: "Tremolo",
     args: [
       {frequency: 10},
       {depth: 0.5}

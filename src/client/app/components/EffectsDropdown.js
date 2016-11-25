@@ -4,8 +4,8 @@ import { Effects } from '../misc/effects';
 
 class EffectsDropdown extends Component {
   render() {
-    const effectsOptions = Object.keys(Effects).map(effectName => {
-      return <option value={effectName}>{effectName}</option>
+    const effectsOptions = Object.keys(Effects).map((effectName, i) => {
+      return <option key={i} value={effectName}>{effectName}</option>
     })
     return (
       <select 
