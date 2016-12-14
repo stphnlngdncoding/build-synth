@@ -27,7 +27,7 @@ const initialState = {
         {
           name:"PingPongDelay",
           args: [{delayTime:'4n'}, {normalRange: 0.9}],
-          enabled: false
+          enabled: true
         },
         {
           name: "Distortion",
