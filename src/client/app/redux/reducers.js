@@ -14,7 +14,7 @@ import {
   Effects
 } from '../misc/effects'
 
-
+import Immutable from 'immutable';
 
 const initialState = {
   synthDropdown: "Synth",
@@ -40,9 +40,13 @@ const initialState = {
 function buildSynthApp(state = initialState, action) {
   switch (action.type) {
     case CHANGE_SYNTH_DROPDOWN:
-      return Object.assign({}, state, {
-        synthDropdown: action.synthName
-      })
+      return Immutable
+        .fromJS(state)
+        .set('synthDropdown', action.synthName)
+        .toJS()
+      // return Object.assign({}, state, {
+      //   synthDropdown: action.synthName
+      // })
     case CHANGE_SYNTH:
       let stateClone = Object.assign({}, state);
       stateClone.stack[0] = {
