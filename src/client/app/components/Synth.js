@@ -93,7 +93,7 @@ class Synth extends Component {
   }
   deleteEffect(e, index) {
     this.props.deleteEffect(e, index);
-    this.forceUpdate();
+    // this.forceUpdate();
   }
   render() {
     return (

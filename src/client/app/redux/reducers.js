@@ -106,9 +106,9 @@ function buildSynthApp(state = initialState, action) {
       return newState.toJS();
       
     case DELETE_EFFECT:
-      stateClone = Object.assign({}, state);
-      stateClone.stack.splice(action.index + 1, 1);
-      return stateClone
+      stateClone = Immutable.fromJS(state);
+      newStack = stateClone.get('stack').delete(action.index + 1);
+      return stateClone.set('stack', newStack).toJS();
 //   
     default: 
       return state;
