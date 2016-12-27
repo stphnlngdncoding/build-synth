@@ -21,24 +21,6 @@ let syn;
 class Synth extends Component {
   constructor() {
     super();
-    // this.state = {
-    //   stack: [
-    //     {
-    //       name: "Synth",
-    //      args: []
-    //     },
-    //     {
-    //     name:"PingPongDelay",
-    //      args: [{delayTime:'4n'}, {normalRange: 0.9}]
-    //     },
-    //     {
-    //       name: "Distortion",
-    //       args: [{normalRange: 0.8}]
-    //     }
-    //   ],
-    //   synthDropdown: "Synth",
-    //   keymap
-    // }
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
     this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
     this.toggleEffect = this.toggleEffect.bind(this);
