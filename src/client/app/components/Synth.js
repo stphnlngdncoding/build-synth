@@ -22,7 +22,7 @@ class Synth extends Component {
   constructor() {
     super();
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
-    this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
+    // this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
     this.toggleEffect = this.toggleEffect.bind(this);
     // this.addDistortionEffect = this.addDistortionEffect.bind(this);
     this.handleTextBoxChange = _.debounce(this.handleTextBoxChange.bind(this), 250);
@@ -69,14 +69,14 @@ class Synth extends Component {
     this.props.changeSynth(e.target.value);
     this.props.changeSynthDropdown(e.target.value);
   }
-  handleSlider(e, effectName, propertyName) {
-    this.props.handleSlider(e, effectName, propertyName);
-    this.forceUpdate();
-  }
+  // handleSlider(e, effectName, propertyName) {
+  //   this.props.handleSlider(e, effectName, propertyName);
+  //   this.forceUpdate();
+  // }
   toggleEffect(index) {
     console.log("toggleEffect hit at ", index)
     this.props.toggleEffect(index);
-    this.forceUpdate();
+    // this.forceUpdate();
   }
   // addDistortionEffect(index) {
   //   this.props.addDistortionEffect(index);

@@ -38,6 +38,7 @@ const initialState = {
 }
 
 function buildSynthApp(state = initialState, action) {
+  let newStack, stateClone;
   switch (action.type) {
     case CHANGE_SYNTH_DROPDOWN:
       return Immutable
@@ -48,7 +49,7 @@ function buildSynthApp(state = initialState, action) {
       //   synthDropdown: action.synthName
       // })
     case CHANGE_SYNTH:
-      let stateClone = Object.assign({}, state);
+      stateClone = Object.assign({}, state);
       stateClone.stack[0] = {
         name: action.synthName,
         args: [],
@@ -72,9 +73,11 @@ function buildSynthApp(state = initialState, action) {
       })
       return stateClone;
     case TOGGLE_EFFECT:
-      stateClone = Object.assign({}, state)
-      stateClone.stack[action.index + 1].enabled = !stateClone.stack[action.index + 1].enabled
-      return stateClone
+      stateClone = Immutable.fromJS(state);
+      const toggledEnable = !state.stack[action.index + 1].enabled;
+      const newEffect = stateClone.get('stack').get(action.index+1).set('enabled', toggledEnable);
+      newStack = stateClone.get('stack').set(action.index + 1, newEffect);
+      return stateClone.set('stack', newStack).toJS();
     case ADD_DISTORTION_EFFECT:
       stateClone = Object.assign({}, state)
       stateClone.stack.push(Object.assign({}, distortionObj));
@@ -98,15 +101,13 @@ function buildSynthApp(state = initialState, action) {
     case ADD_EFFECT:
       const effect = Effects[action.effectName];
       const iState = Immutable.fromJS(state);
-      const newStack = iState.get("stack").push(effect)
+      newStack = iState.get("stack").push(effect)
       const newState = iState.set('stack', newStack);
       return newState.toJS();
       
     case DELETE_EFFECT:
       stateClone = Object.assign({}, state);
-      console.log(action.index)
       stateClone.stack.splice(action.index + 1, 1);
-      console.log(stateClone.stack)
       return stateClone
 //   
     default: 
