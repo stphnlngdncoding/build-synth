@@ -1,0 +1,7 @@
+input {
+  width: 33px;
+}
+
+.disabled {
+  color: grey;
+}

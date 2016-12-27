@@ -5,13 +5,16 @@ class Effect extends Component {
   render() {
     return (
       <div>
-        {this.props.enabled ? this.props.name : "disabled"}
+        <div className={this.props.enabled ? "enabled" : "disabled"}>
+          {this.props.name}
+        </div>
         {this.props.args.map((arg, i) => {
           let val = Object.values(arg)[0];
           let key = Object.keys(arg)[0]
           if (typeof val === "number") {
             return (
               <input 
+                className={this.props.enabled}
                 key={i}
                 defaultValue={val} 
                 type='text'
@@ -22,8 +25,8 @@ class Effect extends Component {
             )
           }
         })}
-        <button onClick={() => this.props.toggleEffect(this.props.index)}>toggleEffect</button>
-        <button onClick={(e) => this.props.deleteEffect(e, this.props.index)}>del</button>
+        <button className="mute-btn" onClick={() => this.props.toggleEffect(this.props.index)}>Mute</button>
+        <button className="delete-btn" onClick={(e) => this.props.deleteEffect(e, this.props.index)}>X</button>
       </div>
     )
   }
