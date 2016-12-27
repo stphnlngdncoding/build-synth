@@ -96,10 +96,12 @@ function buildSynthApp(state = initialState, action) {
       })
       return stateClone;
     case ADD_EFFECT:
-      stateClone = Object.assign({}, state);
-      let effect = Effects[action.effectName];
-      stateClone.stack.push(Object.assign({}, effect));
-      return stateClone;
+      const effect = Effects[action.effectName];
+      const iState = Immutable.fromJS(state);
+      const newStack = iState.get("stack").push(effect)
+      const newState = iState.set('stack', newStack);
+      return newState.toJS();
+      
     case DELETE_EFFECT:
       stateClone = Object.assign({}, state);
       console.log(action.index)

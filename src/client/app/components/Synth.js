@@ -24,7 +24,7 @@ class Synth extends Component {
     this.handleSynthDropdownChange = this.handleSynthDropdownChange.bind(this);
     this.handleSlider = _.debounce(this.handleSlider.bind(this), 250);
     this.toggleEffect = this.toggleEffect.bind(this);
-    this.addDistortionEffect = this.addDistortionEffect.bind(this);
+    // this.addDistortionEffect = this.addDistortionEffect.bind(this);
     this.handleTextBoxChange = _.debounce(this.handleTextBoxChange.bind(this), 250);
     this.addEffect = this.addEffect.bind(this);
     this.deleteEffect = this.deleteEffect.bind(this);
@@ -78,18 +78,18 @@ class Synth extends Component {
     this.props.toggleEffect(index);
     this.forceUpdate();
   }
-  addDistortionEffect(index) {
-    this.props.addDistortionEffect(index);
-    this.forceUpdate();
-  }
+  // addDistortionEffect(index) {
+  //   this.props.addDistortionEffect(index);
+  //   this.forceUpdate();
+  // }
   handleTextBoxChange(e, effectName, propertyName) {
     this.props.handleTextInput(e, effectName, propertyName)
     this.forceUpdate();
   }
   addEffect(e, effectName, index) {
-    console.log(e);
+    console.log("in add effect");
     this.props.addEffect(e, effectName);
-    this.forceUpdate();
+    // this.forceUpdate();
   }
   deleteEffect(e, index) {
     this.props.deleteEffect(e, index);
