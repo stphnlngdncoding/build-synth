@@ -14,7 +14,7 @@ import {
   Effects
 } from '../misc/effects'
 
-
+import Immutable from 'immutable';
 
 const initialState = {
   synthDropdown: "Synth",
@@ -38,46 +38,63 @@ const initialState = {
 }
 
 function buildSynthApp(state = initialState, action) {
+  let newStack, 
+      stateClone, 
+      stackClone;
   switch (action.type) {
     case CHANGE_SYNTH_DROPDOWN:
-      return Object.assign({}, state, {
-        synthDropdown: action.synthName
-      })
+      return Immutable
+        .fromJS(state)
+        .set('synthDropdown', action.synthName)
+        .toJS()
+      // return Object.assign({}, state, {
+      //   synthDropdown: action.synthName
+      // })
     case CHANGE_SYNTH:
-      let stateClone = Object.assign({}, state);
-      stateClone.stack[0] = {
-        name: action.synthName,
-        args: [],
-        enabled: true
-      }
-      return stateClone;
-    case HANDLE_SLIDER:
-      stateClone = Object.assign({}, state);
-      let stack = stateClone.stack;
-      let range = action.e.target.value / 100;
-      stack.map(ef => {
-        if (ef.name === action.effectName) {
-          ef.args.forEach(efProp => {
-            if (efProp.hasOwnProperty('normalRange')) {
-              efProp.normalRange = range;
-            }
-          })
-          return ef;
-        }
-        return ef;
-      })
-      return stateClone;
+      stateClone = Immutable.fromJS(state);
+      newStack = stateClone.get('stack').set(0, {name: action.synthName, args: [], enabled: true});
+      return stateClone.set('stack', newStack).toJS();
+    // case HANDLE_SLIDER:
+    //   stateClone = Object.assign({}, state);
+    //   let stack = stateClone.stack;
+    //   let range = action.e.target.value / 100;
+    //   stack.map(ef => {
+    //     if (ef.name === action.effectName) {
+    //       ef.args.forEach(efProp => {
+    //         if (efProp.hasOwnProperty('normalRange')) {
+    //           efProp.normalRange = range;
+    //         }
+    //       })
+    //       return ef;
+    //     }
+    //     return ef;
+    //   })
+    //   return stateClone;
     case TOGGLE_EFFECT:
-      stateClone = Object.assign({}, state)
-      stateClone.stack[action.index + 1].enabled = !stateClone.stack[action.index + 1].enabled
-      return stateClone
-    case ADD_DISTORTION_EFFECT:
-      stateClone = Object.assign({}, state)
-      stateClone.stack.push(Object.assign({}, distortionObj));
-      return stateClone;
+      stateClone = Immutable.fromJS(state);
+      const toggledEnable = !state.stack[action.index + 1].enabled;
+      const newEffect = stateClone.get('stack').get(action.index+1).set('enabled', toggledEnable);
+      newStack = stateClone.get('stack').set(action.index + 1, newEffect);
+      return stateClone.set('stack', newStack).toJS();
+    // case ADD_DISTORTION_EFFECT:
+    //   stateClone = Object.assign({}, state)
+    //   stateClone.stack.push(Object.assign({}, distortionObj));
+    //   return stateClone;
     case HANDLE_TEXT_INPUT:
-      stateClone = Object.assign({}, state) 
-      stack = stateClone.stack;
+      // stateClone = Immutable.fromJS(state);
+      // stackClone = stateClone.get('stack');
+      // let val = Number(action.e.target.value);
+      // //dont forget to reassign stackClone!!1
+      // console.log(action);
+      // // console.log(stackClone)
+      // stackClone = stackClone.map(ef => {
+      //   if (ef.get('name') === action.effectName) {
+      //     console.log(ef.toJS())
+      //   }
+      // })
+      // return stateClone.set('stack', stackClone).toJS();
+      stateClone = Immutable.fromJS(state).toJS(); 
+      let stack = stateClone.stack;
       let val = Number(action.e.target.value);
       stack.map(ef => {
         if (ef.name === action.effectName) {
@@ -90,18 +107,18 @@ function buildSynthApp(state = initialState, action) {
         }
         return ef;
       })
-      return stateClone;
-    case ADD_EFFECT:
-      stateClone = Object.assign({}, state);
-      let effect = Effects[action.effectName];
-      stateClone.stack.push(Object.assign({}, effect));
-      return stateClone;
-    case DELETE_EFFECT:
-      stateClone = Object.assign({}, state);
-      console.log(action.index)
-      stateClone.stack.splice(action.index + 1, 1);
-      console.log(stateClone.stack)
       return stateClone
+    case ADD_EFFECT:
+      const effect = Effects[action.effectName];
+      const iState = Immutable.fromJS(state);
+      newStack = iState.get("stack").push(effect)
+      const newState = iState.set('stack', newStack);
+      return newState.toJS();
+      
+    case DELETE_EFFECT:
+      stateClone = Immutable.fromJS(state);
+      newStack = stateClone.get('stack').delete(action.index + 1);
+      return stateClone.set('stack', newStack).toJS();
 //   
     default: 
       return state;
