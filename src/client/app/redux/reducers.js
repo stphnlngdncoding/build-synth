@@ -93,8 +93,7 @@ function buildSynthApp(state = initialState, action) {
       //   }
       // })
       // return stateClone.set('stack', stackClone).toJS();
-      stateClone = Object.assign({}, state) 
-      console.log(stateClone);
+      stateClone = Immutable.fromJS(state).toJS(); 
       let stack = stateClone.stack;
       let val = Number(action.e.target.value);
       stack.map(ef => {
@@ -108,7 +107,7 @@ function buildSynthApp(state = initialState, action) {
         }
         return ef;
       })
-      return Immutable.fromJS(stateClone).toJS();
+      return stateClone
     case ADD_EFFECT:
       const effect = Effects[action.effectName];
       const iState = Immutable.fromJS(state);
